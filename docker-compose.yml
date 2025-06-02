@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: name_country_db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: name_country_web
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             gunicorn name_country.wsgi:application --bind 0.0.0.0:8000"
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${DJANGO_PORT}:8000"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
