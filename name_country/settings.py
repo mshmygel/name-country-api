@@ -37,6 +37,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,6 +46,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "names",
+
+    "drf_spectacular",
+
 ]
 
 MIDDLEWARE = [
@@ -58,6 +62,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "name_country.urls"
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 TEMPLATES = [
     {
@@ -133,3 +139,26 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Name Country API",
+    "DESCRIPTION": "Predicts nationality by name and shows most popular names per country",
+    "VERSION": "1.0.0",
+}
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Name Country Admin",
+    "site_header": "Name-Country API",
+    "welcome_sign": "Welcome to the admin panel",
+    "copyright": "2025",
+    "hide_apps": [],
+    "hide_models": [],
+}
+
