@@ -12,7 +12,10 @@ dependencies = [
     "djangorestframework (>=3.16.0,<4.0.0)",
     "psycopg2-binary (>=2.9.10,<3.0.0)",
     "python-dotenv (>=1.1.0,<2.0.0)",
-    "gunicorn (>=23.0.0,<24.0.0)"
+    "gunicorn (>=23.0.0,<24.0.0)",
+    "drf-spectacular (>=0.28.0,<0.29.0)",
+    "djangorestframework-simplejwt (>=5.5.0,<6.0.0)",
+    "django-jazzmin (>=3.0.1,<4.0.0)"
 ]
 
 

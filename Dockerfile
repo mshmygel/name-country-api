@@ -16,6 +16,10 @@ RUN pip install --no-cache-dir poetry && \
 
 COPY . .
 
+# Collect static files for admin UI
+RUN python manage.py collectstatic --noinput
+
+
 # Stage 2: Runtime
 FROM python:3.12-slim
 
@@ -24,6 +28,9 @@ WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.12 /usr/local/lib/python3.12
 COPY --from=builder /usr/local/bin /usr/local/bin
 COPY . .
+
+# Copy static files from build stage
+COPY --from=builder /app/staticfiles /app/staticfiles
 
 EXPOSE 8000
 

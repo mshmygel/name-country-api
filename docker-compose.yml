@@ -33,6 +33,8 @@ services:
       - db
     volumes:
       - .:/app
+      - static_volume:/app/staticfiles
 
 volumes:
   postgres_data:
+  static_volume:
