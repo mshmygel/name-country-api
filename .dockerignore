@@ -1,0 +1,26 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Git
+.git
+.gitignore
+
+# Docker
+#.dockerignore
+#docker-compose.yml
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+.DS_Store
