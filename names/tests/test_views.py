@@ -1,3 +1,4 @@
+from unittest.mock import patch
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
@@ -14,10 +15,34 @@ class NamePredictionViewTest(APITestCase):
         self.url = reverse("name-prediction")
         self.valid_name = "michael"
 
-    def test_prediction_with_valid_name(self):
+    @patch("names.views.get_country_details")
+    @patch("names.views.get_nationalize_data")
+    def test_prediction_with_valid_name(self, mock_get_nationalize, mock_get_country):
         """
-        Should return 200 OK with country predictions for a valid name.
+        Should return 200 OK with mocked country predictions for a valid name.
         """
+        mock_get_nationalize.return_value = [{"country_id": "US", "probability": 0.9}]
+        mock_get_country.return_value = {
+            "name": {
+                "official": "United States of America",
+                "common": "United States"
+            },
+            "region": "Americas",
+            "subregion": "North America",
+            "capital": ["Washington, D.C."],
+            "latlng": [38.0, -97.0],
+            "flags": {
+                "png": "https://example.com/flag.png",
+                "svg": "https://example.com/flag.svg"
+            },
+            "coatOfArms": {
+                "png": "",
+                "svg": ""
+            },
+            "borders": ["CAN", "MEX"],
+            "independent": True
+        }
+
         response = self.client.get(self.url, {"name": self.valid_name})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("name", response.data)
